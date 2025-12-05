@@ -1,0 +1,87 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # kube-prometheus-stack (Prometheus + Grafana + Alertmanager)
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 56.0.0
+      chart: kube-prometheus-stack
+      helm:
+        values: |
+          prometheus:
+            prometheusSpec:
+              retention: 15d
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: local-path
+                    resources:
+                      requests:
+                        storage: 20Gi
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 2Gi
+                limits:
+                  cpu: 1000m
+                  memory: 4Gi
+
+          grafana:
+            enabled: true
+            adminPassword: admin
+            persistence:
+              enabled: true
+              size: 5Gi
+              storageClassName: local-path
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                cpu: 500m
+                memory: 1Gi
+
+          alertmanager:
+            enabled: true
+            alertmanagerSpec:
+              storage:
+                volumeClaimTemplate:
+                  spec:
+                    storageClassName: local-path
+                    resources:
+                      requests:
+                        storage: 5Gi
+
+    # Custom configuration (dashboards, rules, etc.)
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/monitoring/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/replicas

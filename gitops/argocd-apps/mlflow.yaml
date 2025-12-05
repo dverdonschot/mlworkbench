@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # MLflow - using community Helm chart
+    - repoURL: https://community-charts.github.io/helm-charts
+      targetRevision: 0.7.19
+      chart: mlflow
+      helm:
+        values: |
+          image:
+            repository: ghcr.io/mlflow/mlflow
+            tag: "2.10.0"
+
+          serviceMonitor:
+            enabled: false
+
+          backendStore:
+            postgres:
+              enabled: true
+              host: postgresql.databases.svc.cluster.local
+              port: 5432
+              database: mlflow
+              user: mlflow
+              password: mlflow
+
+          artifactRoot:
+            s3:
+              enabled: true
+              bucket: mlflow
+              awsAccessKeyId: minio
+              awsSecretAccessKey: minio123
+
+          service:
+            type: ClusterIP
+            port: 5000
+
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+
+    # Custom configuration
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/mlflow/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mlflow
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

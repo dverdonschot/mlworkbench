@@ -1,0 +1,69 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # PostgreSQL Helm chart (Bitnami)
+    - repoURL: https://charts.bitnami.com/bitnami
+      targetRevision: 13.4.0
+      chart: postgresql
+      helm:
+        values: |
+          auth:
+            enablePostgresUser: true
+            postgresPassword: postgres
+            database: postgres
+
+          primary:
+            persistence:
+              enabled: true
+              size: 20Gi
+              storageClass: local-path
+
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                cpu: 1000m
+                memory: 2Gi
+
+            initdb:
+              scripts:
+                init.sql: |
+                  -- Create databases for different services
+                  CREATE DATABASE mlflow;
+                  CREATE DATABASE airflow;
+                  CREATE DATABASE mlworkbench;
+
+                  -- Create users
+                  CREATE USER mlflow WITH PASSWORD 'mlflow';
+                  CREATE USER airflow WITH PASSWORD 'airflow';
+                  CREATE USER mlworkbench WITH PASSWORD 'mlworkbench';
+
+                  -- Grant privileges
+                  GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow;
+                  GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
+                  GRANT ALL PRIVILEGES ON DATABASE mlworkbench TO mlworkbench;
+
+    # Custom configuration
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/postgresql/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: databases
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

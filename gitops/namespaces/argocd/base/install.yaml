@@ -1,0 +1,24 @@
+---
+# ArgoCD installation manifest
+# Source: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# This file should be kept in sync with the official ArgoCD release
+
+# For production deployment, download the official manifest:
+# kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# This is a placeholder - the bootstrap script will apply the official manifest
+# We keep this file to document the installation source
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-installation-source
+  namespace: argocd
+data:
+  source: "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+  version: "stable"
+  notes: |
+    ArgoCD is installed via the bootstrap script using the official manifest.
+    This ensures we always get the latest stable version.
+
+    To update ArgoCD:
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml

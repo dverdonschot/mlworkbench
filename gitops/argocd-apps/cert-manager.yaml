@@ -1,0 +1,39 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # cert-manager Helm chart
+    - repoURL: https://charts.jetstack.io
+      targetRevision: v1.14.0
+      chart: cert-manager
+      helm:
+        values: |
+          installCRDs: true
+          global:
+            leaderElection:
+              namespace: cert-manager
+    # Custom configuration (ClusterIssuers, etc.)
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/cert-manager/overlays/local
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      jqPathExpressions:
+        - .metadata.annotations

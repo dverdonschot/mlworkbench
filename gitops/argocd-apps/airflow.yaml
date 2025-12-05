@@ -1,0 +1,106 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # Apache Airflow Helm chart
+    - repoURL: https://airflow.apache.org
+      targetRevision: 1.12.0
+      chart: airflow
+      helm:
+        values: |
+          executor: "KubernetesExecutor"
+
+          webserver:
+            replicas: 1
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                cpu: 1000m
+                memory: 2Gi
+
+          scheduler:
+            replicas: 1
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                cpu: 1000m
+                memory: 2Gi
+
+          triggerer:
+            enabled: true
+            replicas: 1
+
+          workers:
+            # KubernetesExecutor creates pods on-demand
+            replicas: 0
+
+          postgresql:
+            enabled: true
+            auth:
+              username: airflow
+              password: airflow
+              database: airflow
+            primary:
+              persistence:
+                enabled: true
+                size: 20Gi
+
+          redis:
+            enabled: false  # Not needed for KubernetesExecutor
+
+          flower:
+            enabled: false  # Not needed for KubernetesExecutor
+
+          dags:
+            gitSync:
+              enabled: false
+              # Enable when you have a DAGs repository
+              # repo: https://github.com/YOUR_USERNAME/mlworkbench-dags.git
+              # branch: main
+              # subPath: dags
+
+          config:
+            core:
+              dags_folder: /opt/airflow/dags
+              load_examples: "False"
+            webserver:
+              expose_config: "True"
+            logging:
+              remote_logging: "False"
+
+    # Custom configuration (DAGs, connections, etc.)
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/airflow/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/replicas

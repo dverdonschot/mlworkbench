@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # Enable anonymous access for local development (optional)
+  # users.anonymous.enabled: "false"
+
+  # Repository credentials (if using private repos)
+  # repositories: |
+  #   - url: https://github.com/your-org/mlworkbench.git
+
+  # Enable ApplicationSet controller
+  applicationSet.enabled: "true"
+
+  # Resource tracking method
+  application.resourceTrackingMethod: annotation
+
+  # Timeout for operations
+  timeout.reconciliation: 180s

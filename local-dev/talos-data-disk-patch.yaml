@@ -1,0 +1,18 @@
+# Talos machine config patch to mount /dev/vdb as /var/lib/k8s-storage
+# Apply with: talosctl patch machineconfig --patch @talos-data-disk-patch.yaml
+machine:
+  disks:
+    - device: /dev/vdb
+      partitions:
+        - mountpoint: /var/lib/k8s-storage
+  kubelet:
+    extraConfig:
+      registerWithTaints: []
+    extraMounts:
+      - destination: /var/lib/k8s-storage
+        type: bind
+        source: /var/lib/k8s-storage
+        options:
+          - bind
+          - rshared
+          - rw

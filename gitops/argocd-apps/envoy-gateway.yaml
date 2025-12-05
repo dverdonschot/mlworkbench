@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: envoy-gateway
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # Envoy Gateway Helm chart
+    - repoURL: oci://docker.io/envoyproxy/gateway-helm
+      targetRevision: v1.0.0
+      chart: gateway-helm
+      helm:
+        values: |
+          envoyGateway:
+            provider:
+              type: Kubernetes
+            logging:
+              level:
+                default: info
+          kubernetesClusterDomain: cluster.local
+    # Custom configuration (GatewayClass, Gateway, etc.)
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/envoy-gateway/overlays/local
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: envoy-gateway-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas

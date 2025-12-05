@@ -1,0 +1,48 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    # Loki stack (Loki + Promtail)
+    - repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 2.16.0
+      chart: loki-stack
+      helm:
+        values: |
+          loki:
+            enabled: true
+            persistence:
+              enabled: true
+              size: 20Gi
+              storageClassName: local-path
+            config:
+              limits_config:
+                retention_period: 168h  # 7 days
+
+          promtail:
+            enabled: true
+
+          grafana:
+            enabled: false  # Using grafana from monitoring stack
+
+    # Custom configuration
+    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/loki/overlays/local
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: logging
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
