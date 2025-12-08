@@ -60,7 +60,7 @@ spec:
                         storage: 5Gi
 
     # Custom configuration (dashboards, rules, etc.)
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/monitoring/overlays/local
 

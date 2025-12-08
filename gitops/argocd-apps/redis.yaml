@@ -36,7 +36,7 @@ spec:
                 memory: 1Gi
 
     # Custom configuration
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/redis/overlays/local
 

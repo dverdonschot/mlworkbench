@@ -18,7 +18,10 @@ cd local-dev && ./setup-talos-vms-disk.sh
 # 3. Bootstrap ArgoCD
 cd ../gitops/bootstrap && ./bootstrap-talos.sh
 
-# 4. Deploy all services
+# 4. Configure ArgoCD repository with PAT token
+argocd repo add https://github.com/dverdonschot/mlworkbench.git --username git --password <YOUR_PAT_TOKEN>
+
+# 5. Deploy all services
 cd ../argocd-apps
 sed -i 's|YOUR_USERNAME|your-github-username|g' *.yaml
 kubectl apply -f root-app.yaml
@@ -202,6 +205,7 @@ mlworkbench/
 - Fedora 43 (or any Linux with KVM support)
 - 8+ CPU cores, 32GB+ RAM, 350GB+ disk
 - libvirt, talosctl, kubectl, yq installed
+- GitHub Personal Access Token (PAT) with repository access (already created for this repo)
 
 ### Deploy Now
 
@@ -219,14 +223,17 @@ cd local-dev
 cd ../gitops/bootstrap
 ./bootstrap-talos.sh
 
-# 4. Update repository URLs
+# 4. Configure ArgoCD repository (using PAT token)
+argocd repo add https://github.com/dverdonschot/mlworkbench.git --username git --password <YOUR_PAT_TOKEN>
+
+# 5. Update repository URLs
 cd ../argocd-apps
 find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|YOUR_GITHUB_USERNAME|g' {} +
 
-# 5. Deploy all services
+# 6. Deploy all services
 kubectl apply -f root-app.yaml
 
-# 6. Watch deployment
+# 7. Watch deployment
 kubectl get applications -n argocd -w
 ```
 

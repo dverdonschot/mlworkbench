@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    repoURL: https://github.com/dverdonschot/mlworkbench.git
     targetRevision: main
     path: gitops/namespaces/local-path-provisioner/overlays/local
   destination:

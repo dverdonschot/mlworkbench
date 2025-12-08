@@ -19,7 +19,7 @@ spec:
             frr:
               enabled: false
     # Custom configuration (IPAddressPool, L2Advertisement)
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/metallb/overlays/local
   destination:

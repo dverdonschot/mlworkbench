@@ -23,7 +23,7 @@ spec:
                 default: info
           kubernetesClusterDomain: cluster.local
     # Custom configuration (GatewayClass, Gateway, etc.)
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/envoy-gateway/overlays/local
   destination:

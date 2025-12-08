@@ -20,7 +20,7 @@ spec:
             leaderElection:
               namespace: cert-manager
     # Custom configuration (ClusterIssuers, etc.)
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/cert-manager/overlays/local
   destination:

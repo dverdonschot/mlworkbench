@@ -32,7 +32,7 @@ spec:
             enabled: false  # Using grafana from monitoring stack
 
     # Custom configuration
-    - repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
       targetRevision: main
       path: gitops/namespaces/loki/overlays/local
 
