@@ -10,5 +10,14 @@ resources:
 
 patches:
   - path: argocd-cm.yaml
+    target:
+      kind: ConfigMap
+      name: argocd-cm
   - path: argocd-cmd-params-cm.yaml
+    target:
+      kind: ConfigMap
+      name: argocd-cmd-params-cm
   - path: argocd-server-service-patch.yaml
+    target:
+      kind: Service
+      name: argocd-server
