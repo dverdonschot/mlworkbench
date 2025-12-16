@@ -47,6 +47,8 @@ spec:
 
           postgresql:
             enabled: true
+            image:
+              tag: 17-debian-12
             auth:
               username: airflow
               password: airflow
