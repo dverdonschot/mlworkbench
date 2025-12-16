@@ -48,9 +48,7 @@ spec:
           postgresql:
             enabled: true
             image:
-              registry: docker.io
-              repository: postgres
-              tag: "16"
+              tag: 16.6.0-debian-12-r0
             auth:
               username: airflow
               password: airflow
