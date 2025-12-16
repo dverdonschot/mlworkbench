@@ -48,7 +48,9 @@ spec:
           postgresql:
             enabled: true
             image:
-              tag: latest
+              registry: docker.io
+              repository: postgres
+              tag: "16"
             auth:
               username: airflow
               password: airflow
