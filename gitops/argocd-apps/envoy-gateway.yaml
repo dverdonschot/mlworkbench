@@ -11,7 +11,7 @@ spec:
   sources:
     # Envoy Gateway Helm chart
     - repoURL: oci://docker.io/envoyproxy/gateway-helm
-      targetRevision: v1.0.0
+      targetRevision: v1.2.3
       chart: gateway-helm
       helm:
         values: |
