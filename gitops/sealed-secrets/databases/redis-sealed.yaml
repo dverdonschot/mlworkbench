@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: redis
+  namespace: databases
+spec:
+  encryptedData:
+    password: AgCyFcu5xCU6FxSmnnOSc4xKgcs5JYkTbNdpZaE/bghQSYiJlvvDuGJGC1eTQ97jdtjONLPSL5L9/h0pw3U2TWbFP1SWcazJLn1XNhB+tX1k+8XSc28qlHLcyS7blKSLcsWP5oOneQGwJu5xhWgEcSy/eP7y8jAm1u/MFqLN56n4LlZwKdwczoFM4WQx/bd+xIlr0UO7WFMmTxmrsBHQdTqv28MVoouSy6pJDWIh/Dju9EK3k4BIeiH04XYS0o/IvwwvXz1xF8pKOh1URd/04RnAOSUJn5wtRBF6WWcqebz0u0nGbv3BhloEL4JDFFiaLnK86mbBWD7y65QlH4v+tmRVFQoHVB9MAGgTcmGmOoxRHoWD2sEYqWWtWJm2HI1/f5nlJbMof6wsAm9AjE8ADIHjwlaOV2uguHiQ1xOQaVif6Zc832VWFRbU+KTGxdFVvigK3iku/g89Yo5+1SteDEmgjpw3Jb3vxNBwjyNQFCzSezSPTpAumd8i/cb3tkdjo5Nu46uNgcHFyVUa++tU+hIiTGoKcbWmieNapC1Y/dD/6DOup3NClgJTcYznC3s/uPszsGufHmzGaLr4poknRgPyZ23mT80yltY3ujjphlfqJF5MgmbMAGbBw6NJ938IIK3esTTWDw8uGy2ZdRLhASeK2hVIYIW2JByE18SV45a7hRXBedVXuBVsq/3QfCDjkSLvtDujg7//ZuqHfSEA+jZHKQk=
+  template:
+    metadata:
+      name: redis
+      namespace: databases

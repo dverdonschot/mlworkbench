@@ -82,7 +82,6 @@ Replace `YOUR_SECURE_*_PASSWORD` with your actual secure passwords before runnin
 **Location**: `gitops/sealed-secrets/databases/redis-sealed.yaml`
 **Namespace**: `databases`
 **Used by**: Redis standalone instance
-**Current plaintext value**: `redis123` (gitops/argocd-apps/redis.yaml:22)
 
 ```bash
 kubectl create secret generic redis \
