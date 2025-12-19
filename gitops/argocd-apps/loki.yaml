@@ -20,7 +20,7 @@ spec:
             persistence:
               enabled: true
               size: 20Gi
-              storageClassName: local-path
+              storageClassName: nfs-client
             config:
               limits_config:
                 retention_period: 168h  # 7 days

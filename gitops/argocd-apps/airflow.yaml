@@ -11,7 +11,7 @@ spec:
   sources:
     # Apache Airflow Helm chart
     - repoURL: https://airflow.apache.org
-      targetRevision: 1.12.0
+      targetRevision: 1.18.0
       chart: airflow
       helm:
         values: |
@@ -46,15 +46,13 @@ spec:
             replicas: 0
 
           postgresql:
-            enabled: true
-            auth:
-              username: airflow
-              password: airflow
-              database: airflow
-            primary:
-              persistence:
-                enabled: true
-                size: 20Gi
+            # Disable bundled PostgreSQL due to image availability issues
+            # Using external PostgreSQL deployment instead
+            enabled: false
+
+          # External database configuration using existing secret
+          data:
+            metadataSecretName: airflow-metadata
 
           redis:
             enabled: false  # Not needed for KubernetesExecutor

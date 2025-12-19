@@ -74,7 +74,7 @@ Your MLWorkbench infrastructure is now fully configured with GitOps! Here's what
 ```bash
 # Step 1: Update repository URLs
 cd /var/home/ewt/mlworkbench/gitops/argocd-apps
-find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|your-github-username|g' {} +
+find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|dverdonschot|g' {} +
 
 # Step 2: Commit changes
 git add .
@@ -181,7 +181,7 @@ gitops/namespaces/<service>/
 
 ```bash
 cd /var/home/ewt/mlworkbench/gitops/argocd-apps
-find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|your-github-username|g' {} +
+find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|dverdonschot|g' {} +
 ```
 
 **Files to update:**

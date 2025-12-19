@@ -11,7 +11,7 @@ spec:
   sources:
     # Redis Helm chart (Bitnami)
     - repoURL: https://charts.bitnami.com/bitnami
-      targetRevision: 18.6.0
+      targetRevision: 20.5.0
       chart: redis
       helm:
         values: |

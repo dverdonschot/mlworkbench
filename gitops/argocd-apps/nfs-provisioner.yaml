@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    targetRevision: 4.0.18
+    chart: nfs-subdir-external-provisioner
+    helm:
+      values: |
+        nfs:
+          server: 192.168.122.1
+          path: /var/srv/nfs/mlworkbench
+
+        storageClass:
+          name: nfs-client
+          defaultClass: false
+          archiveOnDelete: true  # Moves deleted PVCs to archived-* folder
+
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nfs-provisioner
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -29,14 +29,17 @@ spec:
               port: 5432
               database: mlflow
               user: mlflow
-              password: mlflow
+              existingSecret: mlflow-env-secret
+              existingSecretKey: POSTGRES_PASSWORD
 
           artifactRoot:
             s3:
               enabled: true
               bucket: mlflow
-              awsAccessKeyId: minio
-              awsSecretAccessKey: minio123
+              awsAccessKeyId: mlflow
+              existingSecret: mlflow-env-secret
+              existingSecretAwsAccessKeyId: AWS_ACCESS_KEY_ID
+              existingSecretAwsSecretAccessKey: AWS_SECRET_ACCESS_KEY
 
           service:
             type: ClusterIP

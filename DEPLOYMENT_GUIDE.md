@@ -4,7 +4,7 @@ Complete guide for deploying the MLWorkbench Federated Learning Platform on Talo
 
 ---
 
-## Quick Start (15 Minutes Total)
+## Quick Start (30 Minutes Total)
 
 ```bash
 # 1. Create Talos VMs (5 minutes)
@@ -21,19 +21,24 @@ export KUBECONFIG=~/.kube/talos-config
 cd ../gitops/bootstrap
 ./bootstrap-talos.sh
 
-# 5. Update repository URLs (1 minute)
+# 5. Create sealed secrets (10-15 minutes - ONE TIME SETUP)
+# See sealed-secrets.md for detailed instructions
+# Install kubeseal CLI and create all 11 sealed secrets
+# Commit them to your Git repository
+
+# 6. Update repository URLs (1 minute)
 cd ../argocd-apps
 # Edit all YAML files: replace YOUR_USERNAME with your GitHub username
-find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|YOUR_GITHUB_USERNAME|g' {} +
+find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|dverdonschot|g' {} +
 
-# 6. Deploy all services (5-10 minutes)
+# 7. Deploy all services (5-10 minutes)
 kubectl apply -f root-app.yaml
 
-# 7. Watch deployment
+# 8. Watch deployment
 kubectl get applications -n argocd -w
 ```
 
-**Total Time**: ~15-20 minutes from zero to fully operational cluster!
+**Total Time**: ~30-35 minutes from zero to fully operational cluster with secure secrets!
 
 ---
 
@@ -319,7 +324,31 @@ chmod 600 ~/argocd-password.txt
 
 ## Phase 4: Deploy Services
 
-### Step 1: Update repository URLs
+### Step 1: Create Sealed Secrets
+
+**CRITICAL:** Before deploying services, you must create all sealed secrets to avoid using hardcoded passwords.
+
+See **[sealed-secrets.md](sealed-secrets.md)** for complete instructions.
+
+**Quick summary:**
+```bash
+# 1. Install kubeseal CLI (if not already installed)
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.34.0/kubeseal-0.34.0-linux-amd64.tar.gz
+tar -xzf kubeseal-0.34.0-linux-amd64.tar.gz
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+
+# 2. Follow sealed-secrets.md to create all 11 sealed secrets
+# Each secret is created with kubeseal and saved to gitops/sealed-secrets/
+
+# 3. Commit sealed secrets to Git
+git add gitops/sealed-secrets/
+git commit -m "Add sealed secrets for all services"
+git push
+```
+
+**Time**: ~10-15 minutes (one-time setup)
+
+### Step 2: Update repository URLs
 
 Before deploying, you need to update the repository URLs in ArgoCD Application definitions.
 
@@ -331,7 +360,7 @@ cd ../argocd-apps
 
 ```bash
 # Replace YOUR_USERNAME with your actual GitHub username
-find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|your-github-username|g' {} +
+find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|dverdonschot|g' {} +
 
 # Verify changes
 git diff

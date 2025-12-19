@@ -211,7 +211,7 @@ mlworkbench/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/YOUR_USERNAME/mlworkbench.git
+git clone https://github.com/dverdonschot/mlworkbench.git
 cd mlworkbench
 
 # 2. Create VMs and cluster
@@ -228,7 +228,7 @@ argocd repo add https://github.com/dverdonschot/mlworkbench.git --username git -
 
 # 5. Update repository URLs
 cd ../argocd-apps
-find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|YOUR_GITHUB_USERNAME|g' {} +
+find . -name '*.yaml' -exec sed -i 's|YOUR_USERNAME|dverdonschot|g' {} +
 
 # 6. Deploy all services
 kubectl apply -f root-app.yaml
@@ -286,7 +286,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_USERNAME/mlworkbench.git
+    repoURL: https://github.com/dverdonschot/mlworkbench.git
     targetRevision: main
     path: gitops/namespaces/my-service/overlays/local
   destination:

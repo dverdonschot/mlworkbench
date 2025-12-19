@@ -6,10 +6,10 @@ namespace: airflow
 
 # Airflow is deployed via Helm chart (see argocd-apps/airflow.yaml)
 # This directory contains custom configurations like:
+# - External PostgreSQL deployment (using official postgres image)
 # - Custom DAGs ConfigMap
 # - Connections and variables
 # - Additional secrets
 
-# resources:
-#   - dags-configmap.yaml
-#   - connections.yaml
+resources:
+  - postgresql-external.yaml

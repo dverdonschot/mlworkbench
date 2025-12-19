@@ -17,15 +17,14 @@ spec:
         values: |
           mode: standalone  # or distributed for HA
 
-          rootUser: minio
-          rootPassword: minio123
+          existingSecret: minio-root-credentials
 
           replicas: 1
 
           persistence:
             enabled: true
             size: 50Gi
-            storageClass: local-path
+            storageClass: nfs-client
 
           resources:
             requests:
@@ -57,13 +56,9 @@ spec:
               policy: none
               purge: false
 
-          users:
-            - accessKey: mlflow
-              secretKey: mlflow123
-              policy: readwrite
-            - accessKey: airflow
-              secretKey: airflow123
-              policy: readwrite
+          # Users will be created via external secrets
+          # See gitops/sealed-secrets/minio/ for user credentials
+          users: []
 
     # Custom configuration
     - repoURL: https://github.com/dverdonschot/mlworkbench.git

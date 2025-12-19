@@ -1,0 +1,2 @@
+# Sealed secrets will be stored here
+# This directory is watched by ArgoCD

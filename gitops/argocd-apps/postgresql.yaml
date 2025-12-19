@@ -17,14 +17,14 @@ spec:
         values: |
           auth:
             enablePostgresUser: true
-            postgresPassword: postgres
+            existingSecret: postgresql
             database: postgres
 
           primary:
             persistence:
               enabled: true
               size: 20Gi
-              storageClass: local-path
+              storageClass: nfs-client
 
             resources:
               requests:
@@ -34,23 +34,26 @@ spec:
                 cpu: 1000m
                 memory: 2Gi
 
+            # Environment variables for init script
+            extraEnvVars:
+              - name: MLFLOW_DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql-mlflow-user
+                    key: password
+              - name: AIRFLOW_DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql-airflow-user
+                    key: password
+              - name: MLWORKBENCH_DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql-mlworkbench-user
+                    key: password
+
             initdb:
-              scripts:
-                init.sql: |
-                  -- Create databases for different services
-                  CREATE DATABASE mlflow;
-                  CREATE DATABASE airflow;
-                  CREATE DATABASE mlworkbench;
-
-                  -- Create users
-                  CREATE USER mlflow WITH PASSWORD 'mlflow';
-                  CREATE USER airflow WITH PASSWORD 'airflow';
-                  CREATE USER mlworkbench WITH PASSWORD 'mlworkbench';
-
-                  -- Grant privileges
-                  GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow;
-                  GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
-                  GRANT ALL PRIVILEGES ON DATABASE mlworkbench TO mlworkbench;
+              scriptsSecret: postgresql-init-scripts
 
     # Custom configuration
     - repoURL: https://github.com/dverdonschot/mlworkbench.git
