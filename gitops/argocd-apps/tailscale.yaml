@@ -8,13 +8,38 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    repoURL: https://github.com/dverdonschot/mlworkbench.git
-    targetRevision: main
-    path: gitops/namespaces/tailscale/overlays/local
+  sources:
+    # Tailscale Operator Helm chart
+    - repoURL: https://pkgs.tailscale.com/helmcharts
+      targetRevision: 1.78.3
+      chart: tailscale-operator
+      helm:
+        values: |
+          operatorConfig:
+            hostname: mlworkbench-operator
+
+          oauth:
+            # OAuth credentials from sealed secret
+            clientId:
+              valueFrom:
+                secretKeyRef:
+                  name: operator-oauth
+                  key: client_id
+            clientSecret:
+              valueFrom:
+                secretKeyRef:
+                  name: operator-oauth
+                  key: client_secret
+
+    # Custom configuration (sealed secrets, etc.)
+    - repoURL: https://github.com/dverdonschot/mlworkbench.git
+      targetRevision: main
+      path: gitops/namespaces/tailscale/overlays/local
+
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale
+
   syncPolicy:
     automated:
       prune: true

@@ -317,7 +317,38 @@ kubeseal --format yaml --controller-namespace sealed-secrets \
 
 ---
 
-### 11. Airflow Metadata Connection
+### 11. Tailscale OAuth Client
+
+**Location**: `gitops/namespaces/tailscale/base/operator-oauth-sealed.yaml`
+**Namespace**: `tailscale`
+**Used by**: Tailscale Kubernetes operator to authenticate with your tailnet
+**Prerequisites**: Create OAuth client at https://login.tailscale.com/admin/settings/oauth
+
+#### Creating the OAuth Client
+
+1. Go to https://login.tailscale.com/admin/settings/oauth
+2. Click **Generate OAuth Client**
+3. Add scopes: `Devices: Write`, `Auth Keys: Write`, `Services: Write`
+4. Save the Client ID and Client Secret
+
+#### Creating the Sealed Secret
+
+```bash
+# Replace with your actual OAuth credentials
+kubectl create secret generic operator-oauth \
+  --from-literal=client_id=YOUR_TAILSCALE_OAUTH_CLIENT_ID \
+  --from-literal=client_secret=YOUR_TAILSCALE_OAUTH_CLIENT_SECRET \
+  --namespace=tailscale \
+  --dry-run=client -o yaml | \
+kubeseal --format yaml --controller-namespace sealed-secrets \
+  > gitops/namespaces/tailscale/base/operator-oauth-sealed.yaml
+```
+
+**Note**: The operator uses OAuth credentials (not auth keys) for better security and automatic device management.
+
+---
+
+### 12. Airflow Metadata Connection
 
 **Location**: `gitops/sealed-secrets/airflow/metadata-sealed.yaml`
 **Namespace**: `airflow`
@@ -459,6 +490,9 @@ After running all commands above, you should have these sealed secrets committed
 - ✅ `gitops/sealed-secrets/mlflow/env-secrets-sealed.yaml` (mlflow namespace)
 - ✅ `gitops/sealed-secrets/airflow/metadata-sealed.yaml` (airflow namespace)
 
-**Total: 11 sealed secrets - All safe to commit to Git!**
+**Tailscale Secrets (tailscale namespace):**
+- ✅ `gitops/namespaces/tailscale/base/operator-oauth-sealed.yaml`
+
+**Total: 12 sealed secrets - All safe to commit to Git!**
 
 Once committed, ArgoCD will automatically sync them and the sealed-secrets controller will decrypt them in the cluster.

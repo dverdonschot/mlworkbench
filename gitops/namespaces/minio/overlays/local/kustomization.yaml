@@ -6,3 +6,5 @@ namespace: minio
 
 resources:
   - ../../base
+  - minio-console-tailscale.yaml
+  - minio-api-tailscale.yaml

@@ -6,3 +6,4 @@ namespace: airflow
 
 resources:
   - ../../base
+  - airflow-webserver-tailscale.yaml

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-api
+  namespace: minio
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "minio-s3"
+    tailscale.com/tags: "tag:k8s"
+spec:
+  ports:
+    - name: http
+      port: 9000
+      targetPort: 9000
+  selector:
+    app: minio

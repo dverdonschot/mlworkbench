@@ -4,12 +4,8 @@ kind: Kustomization
 
 namespace: tailscale
 
-# Tailscale deployment
-# Reference: https://tailscale.com/kb/1185/kubernetes/
+# Tailscale Operator is deployed via Helm (see argocd-apps/tailscale.yaml)
+# This directory contains the OAuth sealed secret for the operator
 
-# Note: This is a placeholder. You'll need to:
-# 1. Create a Tailscale auth key
-# 2. Create a secret with the auth key
-# 3. Deploy the Tailscale operator or subnet router
-
-# For now, this is optional for local development
+resources:
+  - operator-oauth-sealed.yaml

@@ -6,3 +6,4 @@ namespace: mlflow
 
 resources:
   - ../../base
+  - mlflow-tailscale.yaml
