@@ -374,12 +374,13 @@ Edit each `*.yaml` file and replace:
 **Files to update:**
 - `root-app.yaml`
 - `argocd.yaml`
-- `external-secrets.yaml`
+- `sealed-secrets.yaml`
 - `cert-manager.yaml`
 - `envoy-gateway.yaml`
 - `tailscale.yaml`
 - `metallb.yaml`
 - `local-path-provisioner.yaml`
+- `nfs-provisioner.yaml`
 - `airflow.yaml`
 - `mlflow.yaml`
 - `minio.yaml`
@@ -431,12 +432,13 @@ kubectl get applications -n argocd -w
 
 **Expected applications:**
 - `argocd` (self-managed)
-- `external-secrets`
+- `sealed-secrets`
 - `cert-manager`
 - `envoy-gateway`
 - `tailscale`
 - `metallb`
 - `local-path-provisioner`
+- `nfs-provisioner`
 - `airflow`
 - `mlflow`
 - `minio`
@@ -461,7 +463,7 @@ kubectl get applications -n argocd
 ```
 NAME                   SYNC STATUS   HEALTH STATUS
 argocd                 Synced        Healthy
-external-secrets       Synced        Healthy
+sealed-secrets         Synced        Healthy
 cert-manager          Synced        Healthy
 envoy-gateway         Synced        Healthy
 tailscale             Synced        Healthy

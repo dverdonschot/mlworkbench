@@ -265,8 +265,6 @@ setup_infisical_info() {
     echo ""
     echo "  5. Add your secrets to Infisical"
     echo ""
-    echo "  6. Update External Secrets to use Infisical provider (see docs)"
-    echo ""
 }
 
 update_repository_urls() {

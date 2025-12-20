@@ -4,7 +4,7 @@
 This infrastructure is adapted from the proven mlworkbench-com setup, using:
 - **Talos Linux** - Immutable Kubernetes OS
 - **ArgoCD** - GitOps continuous delivery
-- **Foundational services**: Tailscale, External Secrets, Envoy Gateway, cert-manager
+- **Foundational services**: Tailscale, Sealed Secrets, Envoy Gateway, cert-manager
 - **ML Platform**: Airflow + Flower for federated learning orchestration
 
 ---
@@ -44,10 +44,11 @@ This infrastructure is adapted from the proven mlworkbench-com setup, using:
 │ Layer 2: Foundational Services (GitOps)                         │
 │   - ArgoCD (self-managed GitOps)                                │
 │   - Tailscale (VPN mesh network)                                │
-│   - External Secrets Operator (secrets sync)                    │
+│   - Sealed Secrets (encrypted secrets)                          │
 │   - Envoy Gateway (modern ingress)                              │
 │   - cert-manager (TLS certificates)                             │
-│   - local-path-provisioner (storage)                            │
+│   - NFS provisioner (NFS storage)                               │
+│   - local-path-provisioner (local storage)                      │
 │   - MetalLB (load balancer)                                     │
 ├─────────────────────────────────────────────────────────────────┤
 │ Layer 3: ML Platform Services                                   │
@@ -356,22 +357,22 @@ use_cases:
   - Secure API endpoints
 ```
 
-### 3. External Secrets Operator
+### 3. Sealed Secrets
 
-**Purpose**: Sync secrets from external providers to Kubernetes
+**Purpose**: Encrypt secrets for safe storage in Git
 
 ```yaml
-namespace: external-secrets
-version: 0.19.2
-backends:
-  - Infisical (self-hosted, primary)
-  - HashiCorp Vault (optional)
-  - AWS Secrets Manager (OVH cloud)
+namespace: sealed-secrets
+version: 0.27.2
+features:
+  - Encrypt secrets locally with kubeseal
+  - Store encrypted secrets in Git
+  - Controller decrypts in-cluster
+  - GitOps-friendly secret management
 
 components:
-  - External Secrets Operator
-  - ClusterSecretStore (defines backends)
-  - ExternalSecret resources (per namespace)
+  - Sealed Secrets Controller
+  - SealedSecret CRDs
 ```
 
 ### 4. Envoy Gateway - Modern Ingress
@@ -859,12 +860,13 @@ kubectl apply -f root-app.yaml
 
 **Deployed services:**
 - ArgoCD (self-managed)
-- External Secrets Operator
+- Sealed Secrets
 - cert-manager
 - Envoy Gateway
 - Tailscale
 - MetalLB
 - local-path-provisioner
+- nfs-provisioner
 
 **Monitor:**
 ```bash
@@ -1036,7 +1038,7 @@ object_storage: OVH Object Storage (S3-compatible)
 │   │   ├── foundation-app.yaml       # Foundational services
 │   │   ├── platform-app.yaml         # ML platform services
 │   │   ├── tailscale.yaml
-│   │   ├── external-secrets.yaml
+│   │   ├── sealed-secrets.yaml
 │   │   ├── envoy-gateway.yaml
 │   │   ├── cert-manager.yaml
 │   │   ├── airflow.yaml              # NEW: Airflow + Flower
@@ -1048,7 +1050,7 @@ object_storage: OVH Object Storage (S3-compatible)
 │       ├── tailscale/
 │       │   ├── base/
 │       │   └── overlays/default/
-│       ├── external-secrets/
+│       ├── sealed-secrets/
 │       ├── envoy-gateway/
 │       ├── cert-manager/
 │       ├── airflow/                   # NEW: Airflow manifests
@@ -1121,7 +1123,7 @@ object_storage: OVH Object Storage (S3-compatible)
 ### Kept (Foundational)
 - ✅ **Talos Linux** - Same immutable Kubernetes OS
 - ✅ **ArgoCD** - Same GitOps pattern
-- ✅ **External Secrets** - Same secrets management
+- ✅ **Sealed Secrets** - Encrypted secrets management
 - ✅ **Envoy Gateway** - Same modern ingress
 - ✅ **Tailscale** - Same VPN mesh
 - ✅ **cert-manager** - Same TLS automation

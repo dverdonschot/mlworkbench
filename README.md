@@ -49,12 +49,13 @@ mlworkbench/
 │   ├── argocd-apps/                # ArgoCD Application definitions
 │   │   ├── root-app.yaml         # App-of-apps (deploy this!)
 │   │   ├── argocd.yaml
-│   │   ├── external-secrets.yaml
+│   │   ├── sealed-secrets.yaml
 │   │   ├── cert-manager.yaml
 │   │   ├── envoy-gateway.yaml
 │   │   ├── tailscale.yaml
 │   │   ├── metallb.yaml
 │   │   ├── local-path-provisioner.yaml
+│   │   ├── nfs-provisioner.yaml
 │   │   ├── airflow.yaml          # Apache Airflow
 │   │   ├── mlflow.yaml           # MLflow
 │   │   ├── minio.yaml            # S3-compatible storage
@@ -65,12 +66,13 @@ mlworkbench/
 │   │
 │   └── namespaces/                 # Kubernetes manifests (Kustomize)
 │       ├── argocd/
-│       ├── external-secrets/
+│       ├── sealed-secrets/
 │       ├── cert-manager/
 │       ├── envoy-gateway/
 │       ├── tailscale/
 │       ├── metallb/
 │       ├── local-path-provisioner/
+│       ├── nfs-provisioner/
 │       ├── airflow/
 │       ├── mlflow/
 │       ├── minio/
@@ -108,11 +110,12 @@ mlworkbench/
 ### Layer 2: Foundational Services
 - ✅ **ArgoCD** - GitOps continuous delivery
 - ✅ **Tailscale** - VPN mesh network
-- ✅ **External Secrets Operator** - Secrets management
+- ✅ **Sealed Secrets** - Encrypted secrets management
 - ✅ **Envoy Gateway** - Modern API gateway (Gateway API)
 - ✅ **cert-manager** - TLS certificate automation
 - ✅ **MetalLB** - Load balancer for bare metal
-- ✅ **local-path-provisioner** - Dynamic storage provisioning
+- ✅ **local-path-provisioner** - Local storage provisioning
+- ✅ **nfs-provisioner** - NFS storage for persistent data
 
 ### Layer 3: ML Platform Services
 - ✅ **Apache Airflow** - Workflow orchestration (KubernetesExecutor)
@@ -173,9 +176,9 @@ mlworkbench/
 | **Orchestration** | Kubernetes v1.34.1 | Container orchestration |
 | **GitOps** | ArgoCD | Declarative deployment |
 | **Ingress** | Envoy Gateway | Modern API gateway |
-| **Storage** | local-path-provisioner | Dynamic PV provisioning |
+| **Storage** | NFS provisioner | NFS-based PV provisioning |
 | **Networking** | MetalLB | Load balancer |
-| **Secrets** | External Secrets | Secrets management |
+| **Secrets** | Sealed Secrets | Encrypted secrets |
 | **Certificates** | cert-manager | TLS automation |
 | **Workflows** | Apache Airflow | ML pipeline orchestration |
 | **ML Tracking** | MLflow | Experiment tracking |

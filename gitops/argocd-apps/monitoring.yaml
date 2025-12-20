@@ -21,7 +21,7 @@ spec:
               storageSpec:
                 volumeClaimTemplate:
                   spec:
-                    storageClassName: local-path
+                    storageClassName: nfs-client
                     resources:
                       requests:
                         storage: 20Gi
@@ -39,7 +39,7 @@ spec:
             persistence:
               enabled: true
               size: 5Gi
-              storageClassName: local-path
+              storageClassName: nfs-client
             resources:
               requests:
                 cpu: 250m
@@ -54,7 +54,7 @@ spec:
               storage:
                 volumeClaimTemplate:
                   spec:
-                    storageClassName: local-path
+                    storageClassName: nfs-client
                     resources:
                       requests:
                         storage: 5Gi

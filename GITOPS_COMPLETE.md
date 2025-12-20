@@ -10,16 +10,17 @@ Your MLWorkbench infrastructure is now fully configured with GitOps! Here's what
 
 ## 📦 Created Files Summary
 
-### 1. ArgoCD Applications (14 apps)
+### 1. ArgoCD Applications
 ✅ **`gitops/argocd-apps/`** - All Application definitions ready
 - `root-app.yaml` - App-of-apps (deploy this to deploy everything!)
 - `argocd.yaml` - ArgoCD self-management
-- `external-secrets.yaml` - Secrets operator
+- `sealed-secrets.yaml` - Sealed secrets controller
 - `cert-manager.yaml` - TLS certificates
 - `envoy-gateway.yaml` - API gateway
 - `tailscale.yaml` - VPN mesh
 - `metallb.yaml` - Load balancer
-- `local-path-provisioner.yaml` - Storage provisioner
+- `local-path-provisioner.yaml` - Local storage provisioner
+- `nfs-provisioner.yaml` - NFS storage provisioner
 - `airflow.yaml` - Apache Airflow (KubernetesExecutor)
 - `mlflow.yaml` - MLflow tracking
 - `minio.yaml` - S3-compatible storage
@@ -31,12 +32,13 @@ Your MLWorkbench infrastructure is now fully configured with GitOps! Here's what
 ### 2. Kubernetes Manifests (Kustomize structure)
 ✅ **`gitops/namespaces/`** - All service configurations
 - ArgoCD (self-managed deployment)
-- External Secrets (ClusterSecretStore)
+- Sealed Secrets (controller for encrypted secrets)
 - cert-manager (ClusterIssuers: selfsigned, letsencrypt)
 - Envoy Gateway (GatewayClass, Gateway)
 - Tailscale (placeholder for VPN setup)
 - MetalLB (IPAddressPool, L2Advertisement)
-- local-path-provisioner (complete deployment)
+- local-path-provisioner (local storage)
+- nfs-provisioner (NFS storage for persistent data)
 - Airflow (Helm-based, custom config ready)
 - MLflow (Helm-based, custom config ready)
 - MinIO (Helm-based, buckets pre-configured)
@@ -117,7 +119,7 @@ kubectl get applications -n argocd -w
 | Loki | logging | Log aggregation | Internal |
 | Envoy Gateway | envoy-gateway-system | API gateway | Internal |
 | cert-manager | cert-manager | TLS certs | Internal |
-| External Secrets | external-secrets | Secrets sync | Internal |
+| Sealed Secrets | sealed-secrets | Encrypted secrets | Internal |
 | MetalLB | metallb-system | Load balancer | Internal |
 | Tailscale | tailscale | VPN mesh | Internal |
 
@@ -131,7 +133,7 @@ kubectl get applications -n argocd -w
 root-app.yaml
    ├── argocd.yaml (self-managed)
    ├── Foundational Services
-   │   ├── external-secrets
+   │   ├── sealed-secrets
    │   ├── cert-manager
    │   ├── envoy-gateway
    │   ├── tailscale

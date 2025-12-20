@@ -56,7 +56,7 @@ spec:
               policy: none
               purge: false
 
-          # Users will be created via external secrets
+          # Users will be created via sealed secrets
           # See gitops/sealed-secrets/minio/ for user credentials
           users: []
 
