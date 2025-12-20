@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "argocd"
+    tailscale.com/hostname: "ml-argocd"
     tailscale.com/tags: "tag:k8s"
 spec:
   ports:

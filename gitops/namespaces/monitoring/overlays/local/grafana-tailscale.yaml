@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "grafana"
+    tailscale.com/hostname: "ml-grafana"
     tailscale.com/tags: "tag:k8s"
 spec:
   ports:

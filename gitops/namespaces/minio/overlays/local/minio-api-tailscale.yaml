@@ -6,7 +6,7 @@ metadata:
   namespace: minio
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "minio-s3"
+    tailscale.com/hostname: "ml-minio-s3"
     tailscale.com/tags: "tag:k8s"
 spec:
   ports:

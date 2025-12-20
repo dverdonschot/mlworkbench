@@ -18,18 +18,9 @@ spec:
           operatorConfig:
             hostname: mlworkbench-operator
 
-          oauth:
-            # OAuth credentials from sealed secret
-            clientId:
-              valueFrom:
-                secretKeyRef:
-                  name: operator-oauth
-                  key: client_id
-            clientSecret:
-              valueFrom:
-                secretKeyRef:
-                  name: operator-oauth
-                  key: client_secret
+          # OAuth credentials are provided via the operator-oauth Secret
+          # which is created by the SealedSecret in the second source below
+          # The operator will automatically look for a secret named "operator-oauth"
 
     # Custom configuration (sealed secrets, etc.)
     - repoURL: https://github.com/dverdonschot/mlworkbench.git

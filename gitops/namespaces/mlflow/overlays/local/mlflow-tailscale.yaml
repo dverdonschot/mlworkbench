@@ -6,7 +6,7 @@ metadata:
   namespace: mlflow
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "mlflow"
+    tailscale.com/hostname: "ml-mlflow"
     tailscale.com/tags: "tag:k8s"
 spec:
   ports:

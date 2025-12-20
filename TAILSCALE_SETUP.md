@@ -98,26 +98,26 @@ Once the operator is running and services are exposed, you can access them via T
 
 ### Service URLs
 
-All services will be accessible at `https://<hostname>.<your-tailnet>.ts.net`:
+All services will be accessible at `https://ml-<service>.<your-tailnet>.ts.net`:
 
 | Service | Tailscale URL | Description |
 |---------|--------------|-------------|
-| **ArgoCD** | `https://argocd.<tailnet>.ts.net` | GitOps dashboard |
-| **Airflow** | `https://airflow.<tailnet>.ts.net` | Workflow orchestration |
-| **Grafana** | `https://grafana.<tailnet>.ts.net` | Metrics & dashboards |
-| **Prometheus** | `https://prometheus.<tailnet>.ts.net` | Metrics database |
-| **MLflow** | `https://mlflow.<tailnet>.ts.net` | ML experiment tracking |
-| **MinIO Console** | `https://minio-console.<tailnet>.ts.net` | S3 object storage UI |
-| **MinIO S3 API** | `https://minio-s3.<tailnet>.ts.net` | S3-compatible API |
+| **ArgoCD** | `https://ml-argocd.<tailnet>.ts.net` | GitOps dashboard |
+| **Airflow** | `https://ml-airflow.<tailnet>.ts.net` | Workflow orchestration |
+| **Grafana** | `https://ml-grafana.<tailnet>.ts.net` | Metrics & dashboards |
+| **Prometheus** | `https://ml-prometheus.<tailnet>.ts.net` | Metrics database |
+| **MLflow** | `https://ml-mlflow.<tailnet>.ts.net` | ML experiment tracking |
+| **MinIO Console** | `https://ml-minio-console.<tailnet>.ts.net` | S3 object storage UI |
+| **MinIO S3 API** | `https://ml-minio-s3.<tailnet>.ts.net` | S3-compatible API |
 
 ### Example Access
 
 ```bash
 # From any device in your tailnet:
-curl https://grafana.<your-tailnet>.ts.net
+curl https://ml-grafana.<your-tailnet>.ts.net
 
 # Or just open in your browser:
-open https://airflow.<your-tailnet>.ts.net
+open https://ml-airflow.<your-tailnet>.ts.net
 ```
 
 ## Exposed Services
@@ -126,34 +126,34 @@ The following services have been configured with Tailscale ingress:
 
 ### Core Infrastructure
 - **ArgoCD Server**: GitOps control plane
-  - Hostname: `argocd`
+  - Hostname: `ml-argocd`
   - Ports: 80 (HTTP), 443 (HTTPS)
 
 ### ML Platform
 - **Airflow Webserver**: Workflow UI
-  - Hostname: `airflow`
+  - Hostname: `ml-airflow`
   - Port: 8080
 
 - **MLflow**: Experiment tracking
-  - Hostname: `mlflow`
+  - Hostname: `ml-mlflow`
   - Port: 5000
 
 ### Object Storage
 - **MinIO Console**: Web UI
-  - Hostname: `minio-console`
+  - Hostname: `ml-minio-console`
   - Port: 9001
 
 - **MinIO S3 API**: S3-compatible storage
-  - Hostname: `minio-s3`
+  - Hostname: `ml-minio-s3`
   - Port: 9000
 
 ### Monitoring
 - **Grafana**: Metrics dashboards
-  - Hostname: `grafana`
+  - Hostname: `ml-grafana`
   - Port: 80
 
 - **Prometheus**: Metrics database
-  - Hostname: `prometheus`
+  - Hostname: `ml-prometheus`
   - Port: 9090
 
 ## Troubleshooting
@@ -278,7 +278,7 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - airflow.<your-tailnet>.ts.net
+    - ml-airflow.<your-tailnet>.ts.net
 ```
 
 This combines Tailscale's secure networking with trusted TLS certificates.
@@ -298,4 +298,4 @@ With Tailscale operator configured, you can:
 - Zero-config VPN access across all your devices
 - Fine-grained access control via Tailscale ACLs
 
-Your services are now accessible at `https://<service>.<tailnet>.ts.net` from any device in your tailnet!
+Your services are now accessible at `https://ml-<service>.<tailnet>.ts.net` from any device in your tailnet!
