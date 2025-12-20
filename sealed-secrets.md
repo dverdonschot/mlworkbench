@@ -239,10 +239,10 @@ kubeseal --format yaml --controller-namespace sealed-secrets \
 
 ### 7. MinIO Root Credentials
 
-**Location**: `gitops/sealed-secrets/minio/root-credentials-sealed.yaml`
+**Location**: `gitops/namespaces/minio/base/minio-root-credentials-sealed.yaml`
 **Namespace**: `minio`
 **Used by**: MinIO server root user
-**Current plaintext values**: `minio` / `minio123` (gitops/argocd-apps/minio.yaml:20-21)
+**Required keys**: `rootUser`, `rootPassword`
 
 ```bash
 kubectl create secret generic minio-root-credentials \
@@ -250,9 +250,11 @@ kubectl create secret generic minio-root-credentials \
   --from-literal=rootPassword=YOUR_SECURE_MINIO_ROOT_PASSWORD \
   --namespace=minio \
   --dry-run=client -o yaml | \
-kubeseal --format yaml --controller-namespace sealed-secrets \
-  > gitops/sealed-secrets/minio/root-credentials-sealed.yaml
+kubeseal --format yaml --controller-name=sealed-secrets-controller --controller-namespace=sealed-secrets \
+  > gitops/namespaces/minio/base/minio-root-credentials-sealed.yaml
 ```
+
+**Note**: This secret is stored in the MinIO namespace manifests and included in the kustomization.yaml
 
 ---
 
@@ -449,7 +451,7 @@ After running all commands above, you should have these sealed secrets committed
 - ✅ `gitops/sealed-secrets/databases/postgresql-mlworkbench-user-sealed.yaml`
 
 **MinIO Secrets (minio namespace):**
-- ✅ `gitops/sealed-secrets/minio/root-credentials-sealed.yaml`
+- ✅ `gitops/namespaces/minio/base/minio-root-credentials-sealed.yaml`
 - ✅ `gitops/sealed-secrets/minio/mlflow-user-sealed.yaml`
 - ✅ `gitops/sealed-secrets/minio/airflow-user-sealed.yaml`
 

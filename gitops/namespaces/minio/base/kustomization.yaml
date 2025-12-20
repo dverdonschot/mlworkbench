@@ -5,3 +5,7 @@ kind: Kustomization
 namespace: minio
 
 # MinIO is deployed via Helm chart (see argocd-apps/minio.yaml)
+# This directory contains sealed secrets for MinIO
+
+resources:
+  - minio-root-credentials-sealed.yaml
