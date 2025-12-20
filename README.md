@@ -51,9 +51,7 @@ mlworkbench/
 │   │   ├── argocd.yaml
 │   │   ├── sealed-secrets.yaml
 │   │   ├── cert-manager.yaml
-│   │   ├── envoy-gateway.yaml
 │   │   ├── tailscale.yaml
-│   │   ├── metallb.yaml
 │   │   ├── local-path-provisioner.yaml
 │   │   ├── nfs-provisioner.yaml
 │   │   ├── airflow.yaml          # Apache Airflow
@@ -68,9 +66,7 @@ mlworkbench/
 │       ├── argocd/
 │       ├── sealed-secrets/
 │       ├── cert-manager/
-│       ├── envoy-gateway/
 │       ├── tailscale/
-│       ├── metallb/
 │       ├── local-path-provisioner/
 │       ├── nfs-provisioner/
 │       ├── airflow/
@@ -111,9 +107,7 @@ mlworkbench/
 - ✅ **ArgoCD** - GitOps continuous delivery
 - ✅ **Tailscale** - VPN mesh network
 - ✅ **Sealed Secrets** - Encrypted secrets management
-- ✅ **Envoy Gateway** - Modern API gateway (Gateway API)
 - ✅ **cert-manager** - TLS certificate automation
-- ✅ **MetalLB** - Load balancer for bare metal
 - ✅ **local-path-provisioner** - Local storage provisioning
 - ✅ **nfs-provisioner** - NFS storage for persistent data
 
@@ -158,7 +152,7 @@ mlworkbench/
 │  ┌────────────────────────────────────────────────────────┐    │
 │  │  Kubernetes Services (ArgoCD-managed)                   │    │
 │  │                                                          │    │
-│  │  Foundational: ArgoCD, Envoy Gateway, cert-manager     │    │
+│  │  Foundational: ArgoCD, Tailscale, cert-manager          │    │
 │  │  Platform: Airflow, MLflow, MinIO, PostgreSQL          │    │
 │  │  Monitoring: Prometheus, Grafana, Loki                 │    │
 │  │  Apps: FL Coordinator, FL Workers, API Gateway         │    │
@@ -175,9 +169,8 @@ mlworkbench/
 | **OS** | Talos Linux v1.11.3 | Immutable Kubernetes OS |
 | **Orchestration** | Kubernetes v1.34.1 | Container orchestration |
 | **GitOps** | ArgoCD | Declarative deployment |
-| **Ingress** | Envoy Gateway | Modern API gateway |
 | **Storage** | NFS provisioner | NFS-based PV provisioning |
-| **Networking** | MetalLB | Load balancer |
+| **Networking** | Tailscale | VPN mesh network |
 | **Secrets** | Sealed Secrets | Encrypted secrets |
 | **Certificates** | cert-manager | TLS automation |
 | **Workflows** | Apache Airflow | ML pipeline orchestration |
