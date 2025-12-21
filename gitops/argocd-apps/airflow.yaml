@@ -19,11 +19,6 @@ spec:
 
           webserver:
             replicas: 1
-            service:
-              annotations:
-                tailscale.com/expose: "true"
-                tailscale.com/hostname: "ml-airflow"
-                tailscale.com/tags: "tag:k8s"
             resources:
               requests:
                 cpu: 500m
@@ -31,6 +26,15 @@ spec:
               limits:
                 cpu: 1000m
                 memory: 2Gi
+
+          ingress:
+            web:
+              enabled: true
+              ingressClassName: tailscale
+              hosts:
+                - name: ml-airflow
+                  tls:
+                    enabled: true
 
           scheduler:
             replicas: 1

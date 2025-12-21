@@ -44,10 +44,15 @@ spec:
           service:
             type: ClusterIP
             port: 5000
-            annotations:
-              tailscale.com/expose: "true"
-              tailscale.com/hostname: "ml-mlflow"
-              tailscale.com/tags: "tag:k8s"
+
+          ingress:
+            enabled: true
+            className: tailscale
+            hosts:
+              - ml-mlflow
+            tls:
+              - hosts:
+                  - ml-mlflow
 
           resources:
             requests:

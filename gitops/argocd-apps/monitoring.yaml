@@ -16,11 +16,14 @@ spec:
       helm:
         values: |
           prometheus:
-            service:
-              annotations:
-                tailscale.com/expose: "true"
-                tailscale.com/hostname: "ml-prometheus"
-                tailscale.com/tags: "tag:k8s"
+            ingress:
+              enabled: true
+              ingressClassName: tailscale
+              hosts:
+                - ml-prometheus
+              tls:
+                - hosts:
+                    - ml-prometheus
             prometheusSpec:
               retention: 15d
               storageSpec:
@@ -41,11 +44,14 @@ spec:
           grafana:
             enabled: true
             adminPassword: admin
-            service:
-              annotations:
-                tailscale.com/expose: "true"
-                tailscale.com/hostname: "ml-grafana"
-                tailscale.com/tags: "tag:k8s"
+            ingress:
+              enabled: true
+              ingressClassName: tailscale
+              hosts:
+                - ml-grafana
+              tls:
+                - hosts:
+                    - ml-grafana
             persistence:
               enabled: true
               size: 5Gi
