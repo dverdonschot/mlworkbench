@@ -11,7 +11,7 @@ spec:
   sources:
     # Loki stack (Loki + Promtail)
     - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 2.16.0
+      targetRevision: 2.10.3
       chart: loki-stack
       helm:
         values: |
