@@ -6,5 +6,13 @@ namespace: monitoring
 
 resources:
   - ../../base
-  - grafana-tailscale.yaml
-  - prometheus-tailscale.yaml
+
+patches:
+  - path: grafana-tailscale.yaml
+    target:
+      kind: Service
+      name: monitoring-grafana
+  - path: prometheus-tailscale.yaml
+    target:
+      kind: Service
+      name: monitoring-kube-prometheus-prometheus

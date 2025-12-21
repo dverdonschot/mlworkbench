@@ -1,0 +1,67 @@
+# Secrets and sensitive files
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*-key.yaml
+*-key.yml
+sealed-secrets-master-key.yaml
+kubeseal-cert.pem
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+*.secret
+secrets/
+credentials/
+
+# Kubernetes local configs
+kubeconfig
+*.kubeconfig
+.kube/config
+talosconfig
+.talos/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Build outputs
+dist/
+build/
+*.pyc
+__pycache__/
+
+# Logs
+*.log
+logs/
+
+# Terraform (if used)
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraformrc
+terraform.tfvars
+
+# Ansible (if used)
+*.retry
+
+# Local development
+local-dev/*.qcow2
+local-dev/*.img
+*.iso
+
+# Don't ignore sealed secrets - they are encrypted and safe
+!*sealed*.yaml
+!*sealed*.yml

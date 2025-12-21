@@ -19,7 +19,8 @@ spec:
 
           auth:
             enabled: true
-            password: redis123
+            existingSecret: redis
+            existingSecretPasswordKey: password
 
           master:
             persistence:
