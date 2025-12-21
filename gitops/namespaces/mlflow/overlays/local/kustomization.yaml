@@ -7,3 +7,4 @@ namespace: mlflow
 resources:
   - ../../base
   - mlflow-tailscale.yaml
+  - ../../../sealed-secrets/mlflow/env-secrets-sealed.yaml

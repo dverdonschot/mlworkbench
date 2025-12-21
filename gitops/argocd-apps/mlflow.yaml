@@ -41,6 +41,12 @@ spec:
               existingSecretAwsAccessKeyId: AWS_ACCESS_KEY_ID
               existingSecretAwsSecretAccessKey: AWS_SECRET_ACCESS_KEY
 
+          extraEnvVars:
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "http://minio.minio.svc.cluster.local:9000"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+
           service:
             type: ClusterIP
             port: 5000
