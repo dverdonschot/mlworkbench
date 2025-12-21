@@ -16,6 +16,11 @@ spec:
       helm:
         values: |
           prometheus:
+            service:
+              annotations:
+                tailscale.com/expose: "true"
+                tailscale.com/hostname: "ml-prometheus"
+                tailscale.com/tags: "tag:k8s"
             prometheusSpec:
               retention: 15d
               storageSpec:
@@ -36,6 +41,11 @@ spec:
           grafana:
             enabled: true
             adminPassword: admin
+            service:
+              annotations:
+                tailscale.com/expose: "true"
+                tailscale.com/hostname: "ml-grafana"
+                tailscale.com/tags: "tag:k8s"
             persistence:
               enabled: true
               size: 5Gi
