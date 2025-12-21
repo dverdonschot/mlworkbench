@@ -16,8 +16,8 @@ spec:
       helm:
         values: |
           image:
-            repository: ghcr.io/mlflow/mlflow
-            tag: "v3.7.0"
+            repository: burakince/mlflow
+            tag: "2.19.0"
 
           serviceMonitor:
             enabled: false
