@@ -40,6 +40,11 @@ spec:
                 value: postgres
               - name: POSTGRES_DB
                 value: postgres
+              - name: PGPASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql
+                    key: postgres-password
               - name: MLFLOW_DB_PASSWORD
                 valueFrom:
                   secretKeyRef:
