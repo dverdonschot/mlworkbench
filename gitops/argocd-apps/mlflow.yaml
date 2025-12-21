@@ -29,17 +29,20 @@ spec:
               port: 5432
               database: mlflow
               user: mlflow
-              existingSecret: mlflow-env-secret
-              existingSecretKey: POSTGRES_PASSWORD
+              password: "dummy"
+
+          existingDatabaseSecret:
+            name: mlflow-env-secret
+            passwordKey: POSTGRES_PASSWORD
 
           artifactRoot:
             s3:
               enabled: true
               bucket: mlflow
-              awsAccessKeyId: mlflow
-              existingSecret: mlflow-env-secret
-              existingSecretAwsAccessKeyId: AWS_ACCESS_KEY_ID
-              existingSecretAwsSecretAccessKey: AWS_SECRET_ACCESS_KEY
+              existingSecret:
+                name: mlflow-env-secret
+                keyOfAccessKeyId: AWS_ACCESS_KEY_ID
+                keyOfSecretAccessKey: AWS_SECRET_ACCESS_KEY
 
           extraEnvVars:
             - name: MLFLOW_S3_ENDPOINT_URL
