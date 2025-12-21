@@ -58,7 +58,10 @@ spec:
             enabled: true
             className: tailscale
             hosts:
-              - ml-mlflow
+              - host: ml-mlflow
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
             tls:
               - hosts:
                   - ml-mlflow
