@@ -7,6 +7,7 @@ namespace: monitoring
 # Monitoring stack is deployed via Helm chart (see argocd-apps/monitoring.yaml)
 # This directory can contain custom Grafana dashboards and Prometheus rules
 
-# resources:
+resources:
+  - namespace.yaml
 #   - custom-dashboard.yaml
 #   - prometheus-rules.yaml
