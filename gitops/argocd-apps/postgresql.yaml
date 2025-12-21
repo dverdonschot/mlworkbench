@@ -11,7 +11,7 @@ spec:
   sources:
     # PostgreSQL Helm chart (Bitnami)
     - repoURL: https://charts.bitnami.com/bitnami
-      targetRevision: 13.4.0
+      targetRevision: 18.1.15
       chart: postgresql
       helm:
         values: |
