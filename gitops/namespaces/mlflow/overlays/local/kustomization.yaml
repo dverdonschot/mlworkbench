@@ -7,4 +7,4 @@ namespace: mlflow
 resources:
   - ../../base
   - mlflow-tailscale.yaml
-  - env-secrets-sealed.yaml
+  # - env-secrets-sealed.yaml  # Secret already exists, managed separately
