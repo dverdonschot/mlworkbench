@@ -63,14 +63,6 @@ spec:
               limits:
                 cpu: 500m
                 memory: 1Gi
-            additionalDataSources:
-              - name: Loki
-                type: loki
-                url: http://loki.logging:3100
-                access: proxy
-                isDefault: false
-                jsonData:
-                  maxLines: 1000
 
           alertmanager:
             enabled: true
