@@ -7,12 +7,16 @@ namespace: argocd
 resources:
   - ../../base
 
-# Add any environment-specific patches here
-# patches:
-#   - patch: |-
-#       - op: replace
-#         path: /data/server.insecure
-#         value: "false"
-#     target:
-#       kind: ConfigMap
-#       name: argocd-cmd-params-cm
+patches:
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: argocd-server
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "ml-argocd"
+          tailscale.com/tags: "tag:k8s"
+    target:
+      kind: Service
+      name: argocd-server

@@ -19,6 +19,11 @@ spec:
 
           webserver:
             replicas: 1
+            service:
+              annotations:
+                tailscale.com/expose: "true"
+                tailscale.com/hostname: "ml-airflow"
+                tailscale.com/tags: "tag:k8s"
             resources:
               requests:
                 cpu: 500m
