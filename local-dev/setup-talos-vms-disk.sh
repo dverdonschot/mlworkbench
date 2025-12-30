@@ -9,8 +9,8 @@ TALOS_IMAGE_URL="https://github.com/siderolabs/talos/releases/download/${TALOS_V
 TALOS_IMAGE="/var/home/ewt/Downloads/talos-metal-amd64.raw.zst"
 BASE_DIR="/var/lib/libvirt/images/talos-k3s"
 NUM_NODES=3
-MEMORY=8388608  # 8 GB in KiB
-VCPUS=2
+MEMORY=16777216  # 16 GB in KiB
+VCPUS=4
 DISK_SIZE=50  # GB - OS disk
 DATA_DISK_SIZE=50  # GB - Additional disk for persistent storage
 
